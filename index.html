@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yabwe/medium-editor@master/dist/css/themes/default.min.css" type="text/css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+        <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+        <style>
+            .editable:focus {
+                outline: none;
+            }
+            ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+            input[type=submit], input[type=button], button {
+                padding: 5px 9px;
+            }
+        </style>
+    </head>
+    <body class="m-4">
+        <div class="mb-8">
+            <h1 id="title" class="inline text-4xl">Journal</h1>
+            <input id="logout" type="button" value="Log Out" class="float-right z-10 cursor-pointer">
+        </div>
+        <div class="app-container flex flex-1 flex-col w-full">
+            <form id="sign" class="w-full">
+                <input id="alias" placeholder="username">
+                <input id="pass" type="password" placeholder="passphrase">
+                <button id="in">Sign In</button>
+                <button id="up">Sign Up</button>
+            </form>
+        
+            <form id="said" class="w-full">
+                <div class="p-8 shadow">
+                    <textarea id="say" class="editable"></textarea>
+                </div>
+                <br>
+                <button id="speak">Post</button>
+            </form>
+            <hr class="m-8">
+            <div id="myjournal" class="mb-4">
+                <h2 class="text-2xl mb-2">Previous Entries</h2>
+                <ul></ul>
+            </div>
+        </div>
+    </body>
+    <script src="main.js"></script>
+</html>

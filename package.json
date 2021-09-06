@@ -1,0 +1,30 @@
+{
+  "name": "social",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "watchify src/index.js -o main.js -v",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "gun": "^0.2020.1234",
+    "jquery": "^3.6.0",
+    "medium-editor": "^5.23.3",
+    "node-snackbar": "^0.1.16",
+    "toastify-js": "^1.11.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.5",
+    "@babel/preset-env": "^7.15.4",
+    "babelify": "^10.0.0",
+    "browserify": "^17.0.0",
+    "nodemon": "^2.0.12",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "watchify": "^4.0.0"
+  }
+}
