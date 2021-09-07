@@ -539,6 +539,10 @@ img {
   flex-direction: column;
 }
 
+.self-center {
+  align-self: center;
+}
+
 .p-8 {
   padding: 2rem;
 }
@@ -581,6 +585,10 @@ img {
 }
 
 @media (min-width: 768px) {
+
+  .md\:flex {
+    display: flex;
+  }
 
   .md\:w-full {
     width: 100%;
