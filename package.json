@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "froala-editor": "^4.0.4",
     "gun": "^0.2020.1234",
     "jquery": "^3.6.0",
     "medium-editor": "^5.23.3",

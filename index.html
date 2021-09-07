@@ -1,10 +1,7 @@
-<!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yabwe/medium-editor@master/dist/css/themes/default.min.css" type="text/css">
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
         <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
         <style>
             .editable:focus {
@@ -26,24 +23,22 @@
             <input id="logout" type="button" value="Log Out" class="float-right z-10 cursor-pointer">
         </div>
         <div class="app-container flex flex-1 flex-col w-full">
-            <div id="sign" class="w-full">
+            <form id="sign" class="w-full">
                 <input id="alias" placeholder="username">
                 <input id="pass" type="password" placeholder="passphrase">
-                <button id="in">Sign In</button>
-                <button id="up">Sign Up</button>
-            </div>
+                <input type="submit" id="in" value="Sign In" />
+                <input type="submit" id="up" value="Sign Up" />
+            </form>
         
-            <div id="said" class="w-full">
-                <div class="p-8 shadow">
-                    <textarea id="say" class="editable"></textarea>
-                </div>
-                <br>
-                <button id="speak">Post</button>
-            </div>
+            <form id="said" class="w-full">
+                <textarea id="say" class="editable" value=""></textarea>
+                <br/>
+                <input type="submit" id="speak" value="Post">
+            </form>
             <hr class="m-8">
             <div id="myjournal" class="mb-4">
                 <h2 class="text-2xl mb-2">Previous Entries</h2>
-                <ul></ul>
+                <ul id="entries"></ul>
             </div>
         </div>
     </body>

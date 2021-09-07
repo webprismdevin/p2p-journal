@@ -1,6 +1,6 @@
 <html>
   <body>
-    <h1 id="title">Journal</h1>
+    <h1>Todo</h1>
 
     <form id="sign">
       <input id="alias" placeholder="username">
@@ -9,21 +9,20 @@
       <input id="up" type="button" value="sign up">
     </form>
 
+    <ul></ul>
+
     <form id="said">
-        <textarea id="say" cols=60 rows=20></textarea>
-        <br>
+        <input id="say">
         <input id="speak" type="submit" value="speak">
     </form>
-
-    <ul></ul>
 
     <script src="https://cdn.jsdelivr.net/npm/gun/examples/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
     <!-- script src="https://cdn.jsdelivr.net/npm/gun/lib/webrtc.js"></script -->
     <script>
-    var gun = Gun(['http://localhost:8765/gun']);
-    var user = gun.user().recall({sessionStorage: true});
+    var gun = Gun(['http://localhost:8765/gun', 'https://gun-manhattan.herokuapp.com/gun']);
+    var user = gun.user();
 
     $('#up').on('click', function(e){
       user.create($('#alias').val(), $('#pass').val());
@@ -36,16 +35,9 @@
 
     $('#said').on('submit', function(e){
       e.preventDefault();
-      if(!user.is){ return }
-      console.log('submitted');
-      gun.get('thoughts').set($('say').val());
+      if(!user.is){ return; }
+      user.get('said').set($('#say').val());
       $('#say').val("");
-      // user.get('said').set($('#say').val());
-      // $('#say').val("");
-    });
-
-    $('body').on('dblclick', 'li', function(e){
-        gun.get('thoughts').get(this.id).put(null);
     });
 
     function UI(say, id){
@@ -57,9 +49,6 @@
       $('#sign').hide();
       user.get('said').map().once(UI);
     });
-
-    gun.get('thoughts').map().on(UI);
-
     </script>
   </body>
 </html>
