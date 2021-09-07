@@ -11,6 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "@editorjs/editorjs": "^2.22.2",
+    "@editorjs/header": "^2.6.1",
+    "@editorjs/nested-list": "^1.0.2",
+    "@editorjs/paragraph": "^2.8.0",
+    "@editorjs/underline": "^1.0.0",
+    "editorjs-html": "^3.4.0",
     "express": "^4.17.1",
     "froala-editor": "^4.0.4",
     "gun": "^0.2020.1234",
@@ -24,8 +29,11 @@
   "devDependencies": {
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.4",
+    "@editorjs/delimiter": "^1.2.0",
+    "@editorjs/marker": "^1.2.2",
     "babelify": "^10.0.0",
     "browserify": "^17.0.0",
+    "editorjs-undo": "^0.1.7",
     "nodemon": "^2.0.12",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

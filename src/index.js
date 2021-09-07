@@ -1,14 +1,53 @@
 var $ = require('jquery');
+//editorjs bs
 var EditorJS = require('@editorjs/editorjs');
+var Underline = require('@editorjs/underline');
+const Header = require('@editorjs/header');
+const Paragraph = require('@editorjs/paragraph');
+const NestedList = require('@editorjs/nested-list');
+const Delimiter = require('@editorjs/delimiter');
+const Undo = require('editorjs-undo');
+const Marker = require('@editorjs/marker');
+//other
 var Toastify = require('toastify-js/src/toastify');
 var Gun = require('gun/gun');
 require('gun/sea');
 require('gun/axe');
 
-var gun = Gun(['https://gun-journal-server.vercel.app:8765/gun']);
+var gun = Gun(['https://p2p-journal-webprism.herokuapp.com/gun']);
 var user = gun.user().recall({ sessionStorage: true });
 
-const editor = new EditorJS('say');
+function customParser(block){
+    return `<custom-tag> ${block.data.text} </custom-tag>`;
+}
+
+const editor = new EditorJS({
+    holderId: 'say',
+    placeholder: 'Let`s write an awesome story!',
+    tools: {
+        underline: {
+            class: Underline,
+            shortcut: 'CMD+I'
+        },
+        header: Header,
+        paragraph: {
+            class: Paragraph,
+            inlineToolbar: true,
+        },
+        list: {
+            class: NestedList,
+            inlineToolbar: true,
+        },
+        delimiter: Delimiter,
+        Marker: {
+            class: Marker,
+            shortcut: 'CMD+SHIFT+M',
+          }
+    },
+    onReady: () => {
+        new Undo({ editor });
+    }
+});
 
 $('#said').hide();
 $('#myjournal').hide();
@@ -36,7 +75,7 @@ $('#said').on('submit', function(e){
     e.preventDefault();
     if(!user.is){ return; }
     editor.save().then((outputData) => {
-        console.log('Article data: ', outputData);
+        // console.log('Article data: ', outputData);
         user.get('said').set(JSON.stringify(outputData));
         Toastify({
             text: 'Your post has been saved!',
@@ -76,17 +115,6 @@ $(document).on('click', '.delete-button', function (e) {
     deleteToast.showToast();
 });
 
-function UI(say, id) {
-    var li = $('#' + id).get(0) || $('<li>').attr('id', id).appendTo('#entries');
-    if (say) {
-        console.log(say)
-        $(li).addClass("p-8 shadow");
-        $(li).html(parseHTML(JSON.parse(say)));
-    } else {
-        $(li).hide();
-    }
-}
-
 const parseHTML = (json) => {
     var html = '';
     
@@ -119,6 +147,23 @@ const parseHTML = (json) => {
     });
 
     return html;
+}
+
+
+function UI(say, id) {
+    var li = $('#' + id).get(0) || $('<li>').attr('id', id).appendTo('#entries');
+    if (say) {
+        let data = JSON.parse(say);
+        $(li).addClass("p-8 shadow");
+        $(li).html(`<div>
+                        <div class="delete-button float-right" id="${id}">&times;</div>
+                        <div>${new Date(data.time).toLocaleDateString()}</div>
+                        <hr>
+                        <div>${parseHTML(data)}</div>
+                    </div>`);
+    } else {
+        $(li).hide();
+    }
 }
 
 gun.on('auth', function () {
