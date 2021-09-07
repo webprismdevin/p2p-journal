@@ -1,6 +1,7 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="src/vendor/toastify.min.css">
         <link href="./tlwnd.css" rel="stylesheet">
         <style>
             .editable:focus {
@@ -22,7 +23,7 @@
             <input id="logout" type="button" value="Log Out" class="float-right z-10 cursor-pointer">
         </div>
         <div class="app-container flex flex-1 flex-col lg:w-1/2 md:w-full">
-            <form id="sign" class="w-full">
+            <form id="sign" class="w-full flex lg:flex-row md:flex-col">
                 <input id="alias" placeholder="username">
                 <input id="pass" type="password" placeholder="passphrase">
                 <input type="submit" id="in" value="Sign In" />

@@ -531,6 +531,10 @@ img {
   cursor: pointer;
 }
 
+.flex-row {
+  flex-direction: row;
+}
+
 .flex-col {
   flex-direction: column;
 }
@@ -581,11 +585,19 @@ img {
   .md\:w-full {
     width: 100%;
   }
+
+  .md\:flex-col {
+    flex-direction: column;
+  }
 }
 
 @media (min-width: 1024px) {
 
   .lg\:w-1\/2 {
     width: 50%;
+  }
+
+  .lg\:flex-row {
+    flex-direction: row;
   }
 }
