@@ -17354,7 +17354,7 @@ var editor = new FroalaEditor('.editable', {
     toolbarButtons: ['bold', 'italic', 'underline', 'undo', 'redo']
 });
 
-var gun = Gun(['http://localhost:8765/gun']);
+var gun = Gun(['https://gun-journal-server.vercel.app:8765/gun']);
 var user = gun.user().recall({ sessionStorage: true });
 
 $('#said').hide();
