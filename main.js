@@ -17642,7 +17642,7 @@ function UI(say, id) {
         $(li).html(`<div>
                         <div class="delete-button float-right bg-red-600 text-white" id="${id}">Delete</div>
                         <div>
-                            <div>${new Date(data.time).toLocaleDateString()}</div>
+                            <div>${new Date(data.time).toLocaleDateString() + " " + new Date(data.time).toLocaleTimeString()}</div>
                             <button class="open-button block mt-2" value="${id}">Open Entry</button>
                         </div>
                     </div>`);
