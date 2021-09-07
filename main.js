@@ -1934,7 +1934,85 @@ function numberIsNaN (obj) {
 }
 
 }).call(this)}).call(this,require("buffer").Buffer)
-},{"base64-js":2,"buffer":3,"ieee754":6}],4:[function(require,module,exports){
+},{"base64-js":2,"buffer":3,"ieee754":7}],4:[function(require,module,exports){
+(function (process){(function (){
+;(function(){
+
+  /* UNBUILD */
+  function USE(arg, req){
+    return req? require(arg) : arg.slice? USE[R(arg)] : function(mod, path){
+      arg(mod = {exports: {}});
+      USE[R(path)] = mod.exports;
+    }
+    function R(p){
+      return p.split('/').slice(-1).toString().replace('.js','');
+    }
+  }
+  if(typeof module !== "undefined"){ var MODULE = module }
+  /* UNBUILD */
+
+	;USE(function(module){
+    if(typeof window !== "undefined"){ module.window = window }
+    var tmp = module.window || module;
+		var AXE = tmp.AXE || function(){};
+
+    if(AXE.window = module.window){ AXE.window.AXE = AXE }
+    try{ if(typeof MODULE !== "undefined"){ MODULE.exports = AXE } }catch(e){}
+    module.exports = AXE;
+	})(USE, './root');
+  
+	;USE(function(module){
+
+		var AXE = USE('./root'), Gun = (AXE.window||'').Gun || USE('./gun', 1);
+		(Gun.AXE = AXE).GUN = AXE.Gun = Gun;
+    var ST = 0;
+
+    if(!Gun.window){ try{ USE('./lib/axe', 1) }catch(e){} }
+		Gun.on('opt', function(at){ start(at) ; this.to.next(at) }); // make sure to call the "next" middleware adapter.
+
+		function start(root){
+			if(root.axe){ return }
+			var opt = root.opt, peers = opt.peers;
+			if(false === opt.axe){ return }
+			if((typeof process !== "undefined") && 'false' === ''+(process.env||'').AXE){ return }
+			if(!Gun.window){ return }
+			var axe = root.axe = {}, tmp, id;
+			tmp = peers[id = 'http://localhost:8765/gun'] = peers[id] || {};
+			tmp.id = tmp.url = id;
+			tmp.retry = tmp.retry || 0; // BUG: Check 0?
+			console.log("AXE enabled: Trying to find network via (1) local peer (2) last used peers (3) hard coded peers.");
+			var last = JSON.parse((localStorage||'')[(opt.file||'')+'axe/']||null) || {};
+			Object.keys(last.peers||'').forEach(function(key){
+				tmp = peers[id = key] = peers[id] || {};
+				tmp.id = tmp.url = id;
+			});
+			tmp = peers[id = 'https://gun-manhattan.herokuapp.com/gun'] = peers[id] || {};
+			tmp.id = tmp.url = id;
+
+			var mesh = opt.mesh = opt.mesh || Gun.Mesh(root); // DAM!
+			mesh.way = function(msg){
+				if(root.$ === msg.$ || (msg._||'').via){
+					mesh.say(msg, opt.peers);
+					return;
+				}
+				var at = (msg.$||'')._;
+				if(!at){ mesh.say(msg, opt.peers); return }
+				if(msg.get){
+					if(at.axe){ return } // don't ask for it again!
+					at.axe = {};
+				}
+				mesh.say(msg, opt.peers);
+			}
+		}
+
+		var empty = {}, yes = true, u;
+
+		module.exports = AXE;
+	})(USE, './axe');
+}());
+
+}).call(this)}).call(this,require('_process'))
+},{"_process":9}],5:[function(require,module,exports){
 (function (setImmediate){(function (){
 ;(function(){
 
@@ -4151,7 +4229,7 @@ function numberIsNaN (obj) {
 	Type.graph = Type.graph || Graph;
 }());
 }).call(this)}).call(this,require("timers").setImmediate)
-},{"timers":9}],5:[function(require,module,exports){
+},{"timers":10}],6:[function(require,module,exports){
 (function (global,Buffer){(function (){
 ;(function(){
 
@@ -5664,7 +5742,7 @@ function numberIsNaN (obj) {
   })(USE, './index');
 }());
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)
-},{"buffer":3}],6:[function(require,module,exports){
+},{"buffer":3}],7:[function(require,module,exports){
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
@@ -5751,7 +5829,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v3.6.0
  * https://jquery.com/
@@ -16634,7 +16712,7 @@ if ( typeof noGlobal === "undefined" ) {
 return jQuery;
 } );
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -16820,7 +16898,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 (function (setImmediate,clearImmediate){(function (){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -16899,7 +16977,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this)}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":8,"timers":9}],10:[function(require,module,exports){
+},{"process/browser.js":9,"timers":10}],11:[function(require,module,exports){
 /*!
  * Toastify js 1.11.1
  * https://github.com/apvarun/toastify-js
@@ -17336,14 +17414,15 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   return Toastify;
 });
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 var $ = require('jquery');
 var EditorJS = require('@editorjs/editorjs');
 var Toastify = require('toastify-js/src/toastify');
 var Gun = require('gun/gun');
 require('gun/sea');
+require('gun/axe');
 
-var gun = Gun(['http://localhost:8765/gun']);
+var gun = Gun(['https://gun-journal-server.vercel.app:8765/gun']);
 var user = gun.user().recall({ sessionStorage: true });
 
 const editor = new EditorJS('say');
@@ -17466,4 +17545,4 @@ gun.on('auth', function () {
     $('#logout').show();
     user.get('said').map().on(UI);
 });
-},{"@editorjs/editorjs":1,"gun/gun":4,"gun/sea":5,"jquery":7,"toastify-js/src/toastify":10}]},{},[11]);
+},{"@editorjs/editorjs":1,"gun/axe":4,"gun/gun":5,"gun/sea":6,"jquery":8,"toastify-js/src/toastify":11}]},{},[12]);

@@ -3,8 +3,9 @@ var EditorJS = require('@editorjs/editorjs');
 var Toastify = require('toastify-js/src/toastify');
 var Gun = require('gun/gun');
 require('gun/sea');
+require('gun/axe');
 
-var gun = Gun(['http://localhost:8765/gun']);
+var gun = Gun(['https://gun-journal-server.vercel.app:8765/gun']);
 var user = gun.user().recall({ sessionStorage: true });
 
 const editor = new EditorJS('say');
