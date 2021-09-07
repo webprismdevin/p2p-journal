@@ -6,6 +6,9 @@
   "scripts": {
     "start": "watchify src/index.js -o main.js -v",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild": "npm run css",
+    "build": "browserify src/index.js -o main.js -v",
+    "postbuild": "minify main.js > main-min.js && minify tlwnd.css > tlwnd-min.css",    
     "css": "purgecss -css tailwind.css -con src/index.js index.html -o tlwnd.css --safelist lg:w-1/2 md:w-full md:flex md:flex-col lg:flex-row"
   },
   "author": "",
