@@ -1,22 +1,17 @@
 var $ = require('jquery');
-var FroalaEditor = require('froala-editor');
-// require('../node_modules/froala-editor/js/plugins/paragraph_format.min.js');
-// require('../node_modules/froala-editor/js/plugins/paragraph_style.min.js');
+var EditorJS = require('@editorjs/editorjs');
 var Toastify = require('toastify-js/src/toastify');
 var Gun = require('gun/gun');
 require('gun/sea');
 
-var editor = new FroalaEditor('.editable', {
-    toolbarButtons: ['bold', 'italic', 'underline', 'undo', 'redo']
-});
-
-var gun = Gun(['https://gun-journal-server.vercel.app:8765/gun']);
+var gun = Gun(['http://localhost:8765/gun']);
 var user = gun.user().recall({ sessionStorage: true });
+
+const editor = new EditorJS('say');
 
 $('#said').hide();
 $('#myjournal').hide();
 $('#logout').hide();
-
 
 $('#up').on('click', function (e) {
     user.create($('#alias').val(), $('#pass').val());
@@ -39,13 +34,25 @@ $('#sign').on('submit', function (e) {
 $('#said').on('submit', function(e){
     e.preventDefault();
     if(!user.is){ return; }
-    user.get('said').set(editor.html.get());
-    Toastify({
-        text: 'Your post has been saved!',
-        duration: 2500,
-        gravity: "top",
-        position: "right"
-    }).showToast();
+    editor.save().then((outputData) => {
+        console.log('Article data: ', outputData);
+        user.get('said').set(JSON.stringify(outputData));
+        Toastify({
+            text: 'Your post has been saved!',
+            duration: 2500,
+            gravity: "top",
+            position: "right"
+        }).showToast();
+    }).catch((error) => {
+        console.log('Saving failed: ', error);
+        Toastify({
+            text: 'Your post could not be saved :(',
+            duration: 2500,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "orange"
+        }).showToast();
+    });
   });
 
 $(document).on('click', '.delete-button', function (e) {
@@ -69,14 +76,48 @@ $(document).on('click', '.delete-button', function (e) {
 });
 
 function UI(say, id) {
-    console.log('loading')
     var li = $('#' + id).get(0) || $('<li>').attr('id', id).appendTo('#entries');
     if (say) {
+        console.log(say)
         $(li).addClass("p-8 shadow");
-        $(li).html(`<div><div id="${id}" class="float-right delete-button cursor-pointer">&times;</div><div>${say}</div></div>`);
+        $(li).html(parseHTML(JSON.parse(say)));
     } else {
         $(li).hide();
     }
+}
+
+const parseHTML = (json) => {
+    var html = '';
+    
+    json.blocks.forEach(function(block) {
+        switch (block.type) {
+            case 'header':
+                html += `<h${block.data.level}>${block.data.text}</h${block.data.level}>`;
+                break;
+            case 'paragraph':
+                html += `<p>${block.data.text}</p>`;
+                break;
+            case 'delimiter':
+                html += '<hr />';
+                break;
+            case 'image':
+                html += `<img class="img-fluid" src="${block.data.file.url}" title="${block.data.caption}" /><br /><em>${block.data.caption}</em>`;
+                break;
+            case 'list':
+                html += '<ul>';
+                block.data.items.forEach(function(li) {
+                    html += `<li>${li}</li>`;
+                });
+                html += '</ul>';
+                break;
+            default:
+                console.log('Unknown block type', block.type);
+                console.log(block);
+            break;
+        }
+    });
+
+    return html;
 }
 
 gun.on('auth', function () {
