@@ -17472,7 +17472,7 @@ var Gun = require('gun/gun');
 require('gun/sea');
 require('gun/axe');
 
-var gun = Gun(['https://p2p-journal-webprism.herokuapp.com/gun']);
+var gun = Gun(['https://p2p-journal-webprism.herokuapp.com/gun', 'http://localhost:8765/gun']);
 var user = gun.user().recall({ sessionStorage: true });
 
 function customParser(block){
@@ -17533,7 +17533,6 @@ $('#said').on('submit', function(e){
     e.preventDefault();
     if(!user.is){ return; }
     editor.save().then((outputData) => {
-        // console.log('Article data: ', outputData);
         user.get('said').set(JSON.stringify(outputData));
         Toastify({
             text: 'Your post has been saved!',
@@ -17541,6 +17540,7 @@ $('#said').on('submit', function(e){
             gravity: "top",
             position: "right"
         }).showToast();
+        editor.clear();
     }).catch((error) => {
         console.log('Saving failed: ', error);
         Toastify({
@@ -17555,6 +17555,7 @@ $('#said').on('submit', function(e){
 
 $(document).on('click', '.delete-button', function (e) {
     e.preventDefault();
+    console.log(e.target.id)
     let deleteToast = Toastify({
         text: 'Are you sure you want to delete this journal entry? Click this notification to confirm.',
         gravity: "top",
@@ -17573,39 +17574,64 @@ $(document).on('click', '.delete-button', function (e) {
     deleteToast.showToast();
 });
 
-const parseHTML = (json) => {
-    var html = '';
-    
-    json.blocks.forEach(function(block) {
-        switch (block.type) {
-            case 'header':
-                html += `<h${block.data.level}>${block.data.text}</h${block.data.level}>`;
-                break;
-            case 'paragraph':
-                html += `<p>${block.data.text}</p>`;
-                break;
-            case 'delimiter':
-                html += '<hr />';
-                break;
-            case 'image':
-                html += `<img class="img-fluid" src="${block.data.file.url}" title="${block.data.caption}" /><br /><em>${block.data.caption}</em>`;
-                break;
-            case 'list':
-                html += '<ul>';
-                block.data.items.forEach(function(li) {
-                    html += `<li>${li}</li>`;
-                });
-                html += '</ul>';
-                break;
-            default:
-                console.log('Unknown block type', block.type);
-                console.log(block);
-            break;
-        }
-    });
-
-    return html;
+const renderPost = (data, id) => {
+    let postData = JSON.parse(data)
+    console.log(data, id);
+    editor.blocks.render(postData).then(() => {
+        editor.readOnly.toggle();
+        $('#speak').prop('disabled', true);
+    }).catch((err) => console.log(err))
 }
+
+$(document).on('click', '.open-button', (e) => {
+    let id = e.target.value;
+    console.log(e.target.value);
+
+    user.get('said').get(id).once(renderPost)
+})
+
+$('#new_post').on('click', () => {
+    editor.readOnly.toggle(false)
+    .then(() => {
+        editor.blocks.clear();
+        $('#speak').prop('disabled', false);
+    })
+
+})
+
+// const parseHTML = (json) => {
+//     var html = '';
+    
+//     json.blocks.forEach(function(block) {
+//         switch (block.type) {
+//             case 'header':
+//                 html += `<h${block.data.level}>${block.data.text}</h${block.data.level}>`;
+//                 break;
+//             case 'paragraph':
+//                 html += `<p>${block.data.text}</p>`;
+//                 break;
+//             case 'delimiter':
+//                 html += '<hr />';
+//                 break;
+//             case 'image':
+//                 html += `<img class="img-fluid" src="${block.data.file.url}" title="${block.data.caption}" /><br /><em>${block.data.caption}</em>`;
+//                 break;
+//             case 'list':
+//                 html += '<ul>';
+//                 block.data.items.forEach(function(li) {
+//                     html += `<li>${li}</li>`;
+//                 });
+//                 html += '</ul>';
+//                 break;
+//             default:
+//                 console.log('Unknown block type', block.type);
+//                 console.log(block);
+//             break;
+//         }
+//     });
+
+//     return html;
+// }
 
 
 function UI(say, id) {
@@ -17614,10 +17640,11 @@ function UI(say, id) {
         let data = JSON.parse(say);
         $(li).addClass("p-8 shadow");
         $(li).html(`<div>
-                        <div class="delete-button float-right" id="${id}">&times;</div>
-                        <div>${new Date(data.time).toLocaleDateString()}</div>
-                        <hr>
-                        <div>${parseHTML(data)}</div>
+                        <div class="delete-button float-right bg-red-600 text-white" id="${id}">Delete</div>
+                        <div>
+                            <div>${new Date(data.time).toLocaleDateString()}</div>
+                            <button class="open-button block mt-2" value="${id}">Open Entry</button>
+                        </div>
                     </div>`);
     } else {
         $(li).hide();

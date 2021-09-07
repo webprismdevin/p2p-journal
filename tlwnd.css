@@ -225,6 +225,8 @@ Add the correct display in Chrome and Safari.
 
 h1,
 h2,
+h3,
+h4,
 hr,
 p {
   margin: 0;
@@ -359,7 +361,9 @@ button {
  */
 
 h1,
-h2 {
+h2,
+h3,
+h4 {
   font-size: inherit;
   font-weight: inherit;
 }
@@ -452,6 +456,10 @@ img {
   margin: 2rem;
 }
 
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
 .mb-2 {
   margin-bottom: 0.5rem;
 }
@@ -531,10 +539,6 @@ img {
   cursor: pointer;
 }
 
-.flex-row {
-  flex-direction: row;
-}
-
 .flex-col {
   flex-direction: column;
 }
@@ -543,18 +547,18 @@ img {
   align-self: center;
 }
 
+.bg-red-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgba(220, 38, 38, var(--tw-bg-opacity));
+}
+
 .p-8 {
   padding: 2rem;
 }
 
-.text-2xl {
-  font-size: 1.5rem;
-  line-height: 2rem;
-}
-
-.text-4xl {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
 }
 
 .underline {
