@@ -19,11 +19,12 @@ var user = gun.user().recall({ sessionStorage: true });
 
 const editor = new EditorJS({
     holderId: 'say',
-    placeholder: 'Let`s write an awesome story!',
+    placeholder: "What's on your mind?",
     tools: {
         underline: {
             class: Underline,
-            shortcut: 'CMD+I'
+            shortcut: 'CMD+U',
+            inlineToolbar: true
         },
         header: Header,
         paragraph: {
@@ -38,8 +39,10 @@ const editor = new EditorJS({
         Marker: {
             class: Marker,
             shortcut: 'CMD+SHIFT+M',
-          }
+            inlineToolbar: true
+        }
     },
+    autofocus: true,
     onReady: () => {
         new Undo({ editor });
     }
@@ -93,7 +96,6 @@ $('#said').on('submit', function(e){
 
 $(document).on('click', '.delete-button', function (e) {
     e.preventDefault();
-    console.log(e.target.id)
     let deleteToast = Toastify({
         text: 'Are you sure you want to delete this journal entry? Click this notification to confirm.',
         gravity: "top",
@@ -114,7 +116,6 @@ $(document).on('click', '.delete-button', function (e) {
 
 const renderPost = (data, id) => {
     let postData = JSON.parse(data)
-    console.log(data, id);
     editor.blocks.render(postData).then(() => {
         editor.readOnly.toggle();
         $('#speak').prop('disabled', true);
@@ -123,7 +124,6 @@ const renderPost = (data, id) => {
 
 $(document).on('click', '.open-button', (e) => {
     let id = e.target.value;
-    console.log(e.target.value);
 
     user.get('said').get(id).once(renderPost)
 })
@@ -137,51 +137,27 @@ $('#new_post').on('click', () => {
 
 })
 
-// const parseHTML = (json) => {
-//     var html = '';
+const getFirstBlock = (data) => {
+    if(data.blocks[0] === undefined){
+        return "This entry is blank..."
+    }
     
-//     json.blocks.forEach(function(block) {
-//         switch (block.type) {
-//             case 'header':
-//                 html += `<h${block.data.level}>${block.data.text}</h${block.data.level}>`;
-//                 break;
-//             case 'paragraph':
-//                 html += `<p>${block.data.text}</p>`;
-//                 break;
-//             case 'delimiter':
-//                 html += '<hr />';
-//                 break;
-//             case 'image':
-//                 html += `<img class="img-fluid" src="${block.data.file.url}" title="${block.data.caption}" /><br /><em>${block.data.caption}</em>`;
-//                 break;
-//             case 'list':
-//                 html += '<ul>';
-//                 block.data.items.forEach(function(li) {
-//                     html += `<li>${li}</li>`;
-//                 });
-//                 html += '</ul>';
-//                 break;
-//             default:
-//                 console.log('Unknown block type', block.type);
-//                 console.log(block);
-//             break;
-//         }
-//     });
-
-//     return html;
-// }
+    return data.blocks[0].data.text
+}
 
 
 function UI(say, id) {
     var li = $('#' + id).get(0) || $('<li>').attr('id', id).appendTo('#entries');
     if (say) {
         let data = JSON.parse(say);
-        $(li).addClass("p-8 shadow");
-        $(li).html(`<div>
-                        <div class="delete-button float-right bg-red-600 text-white" id="${id}">Delete</div>
-                        <div>
-                            <div>${new Date(data.time).toLocaleDateString() + " " + new Date(data.time).toLocaleTimeString()}</div>
-                            <button class="open-button block mt-2" value="${id}">Open Entry</button>
+
+        $(li).addClass("pt-8 pb-8");
+        $(li).html(`<div style="border-bottom: 2px solid black">
+                        <div class="text-sm">${new Date(data.time).toLocaleDateString() + " " + new Date(data.time).toLocaleTimeString()}</div>
+                        <div class="mt-4">${getFirstBlock(data)}</div>
+                        <div class="mt-2 mb-2 flex justify-between w-full">
+                            <button class="open-button" value="${id}">Open Entry</button>
+                            <button class="delete-button bg-red-600 text-white" id="${id}">Delete</button>
                         </div>
                     </div>`);
     } else {

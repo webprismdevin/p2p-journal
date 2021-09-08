@@ -227,8 +227,7 @@ h1,
 h2,
 h3,
 h4,
-hr,
-p {
+hr {
   margin: 0;
 }
 
@@ -329,10 +328,6 @@ hr {
  * https://github.com/tailwindcss/tailwindcss/issues/362
  */
 
-img {
-  border-style: solid;
-}
-
 input::-moz-placeholder {
   opacity: 1;
   color: #9ca3af;
@@ -412,24 +407,12 @@ input {
  *    https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210
  */
 
-img {
-  display: block;
-  /* 1 */
-  vertical-align: middle;
-  /* 2 */
-}
-
 /**
  * Constrain images and videos to the parent width and preserve
  * their intrinsic aspect ratio.
  *
  * https://github.com/mozdevs/cssremedy/issues/14
  */
-
-img {
-  max-width: 100%;
-  height: auto;
-}
 
 /**
  * Ensure the default browser behavior of the `hidden` attribute.
@@ -438,14 +421,6 @@ img {
 *, ::before, ::after {
   --tw-border-opacity: 1;
   border-color: rgba(229, 231, 235, var(--tw-border-opacity));
-}
-
-.z-10 {
-  z-index: 10;
-}
-
-.float-right {
-  float: right;
 }
 
 .m-4 {
@@ -460,6 +435,10 @@ img {
   margin-top: 0.5rem;
 }
 
+.mt-4 {
+  margin-top: 1rem;
+}
+
 .mb-2 {
   margin-bottom: 0.5rem;
 }
@@ -470,14 +449,6 @@ img {
 
 .mb-8 {
   margin-bottom: 2rem;
-}
-
-.block {
-  display: block;
-}
-
-.inline {
-  display: inline;
 }
 
 .flex {
@@ -543,6 +514,14 @@ img {
   flex-direction: column;
 }
 
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
 .self-center {
   align-self: center;
 }
@@ -552,8 +531,17 @@ img {
   background-color: rgba(220, 38, 38, var(--tw-bg-opacity));
 }
 
-.p-8 {
-  padding: 2rem;
+.pt-8 {
+  padding-top: 2rem;
+}
+
+.pb-8 {
+  padding-bottom: 2rem;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
 
 .text-white {
@@ -567,16 +555,6 @@ img {
 
 *, ::before, ::after {
   --tw-shadow: 0 0 #0000;
-}
-
-.shadow {
-  --tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
-.shadow-2xl {
-  --tw-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 *, ::before, ::after {
