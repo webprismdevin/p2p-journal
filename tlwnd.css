@@ -455,16 +455,8 @@ input {
   display: flex;
 }
 
-.w-1 {
-  width: 0.25rem;
-}
-
 .w-full {
   width: 100%;
-}
-
-.flex-1 {
-  flex: 1 1 0%;
 }
 
 @-webkit-keyframes spin {
