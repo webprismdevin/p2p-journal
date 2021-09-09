@@ -1,0 +1,42 @@
+.app-container {
+    max-width: 650px;
+}
+.editable:focus {
+    outline: none;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+input[type=submit], input[type=button], button {
+    padding: 5px 9px;
+    background-color: green;
+    color: white;
+    cursor: pointer;
+}
+
+input:disabled, button:disabled {
+    opacity: 0.4;
+}
+
+.delete-button {
+    padding: 5px 9px;
+}
+
+#logout {
+    background-color: orange;
+    color: black
+}
+h1 {
+    font-size: 3em;
+}
+h2 {
+    font-size: 2.4em;
+}
+h3 {
+    font-size: 1.8em;
+}
+h4 {
+    font-size: 1.2em;
+}

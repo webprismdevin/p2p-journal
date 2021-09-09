@@ -14,7 +14,11 @@ var Gun = require('gun/gun');
 require('gun/sea');
 require('gun/axe');
 
-var gun = Gun(['https://p2p-journal-webprism.herokuapp.com/gun', 'http://localhost:8765/gun', 'http://dev.webprism.co:8765/gun']);
+var gun = Gun([
+    'https://p2p-journal-webprism.herokuapp.com/gun', 
+    'http://localhost:8765/gun', 
+    // 'http://dev.webprism.co:8765/gun'
+]);
 var user = gun.user().recall({ sessionStorage: true });
 
 const editor = new EditorJS({
